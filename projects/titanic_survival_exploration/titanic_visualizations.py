@@ -46,7 +46,7 @@ def survival_stats(data, outcomes, key, filters = []):
     Print out selected statistics regarding survival, given a feature of
     interest and any number of filters (including no filters)
     """
-    
+
     # Check that the key exists
     if key not in data.columns.values :
         print "'{}' is not a feature of the Titanic data. Did you spell something wrong?".format(key)
@@ -86,7 +86,7 @@ def survival_stats(data, outcomes, key, filters = []):
         if(key == 'Fare'):
             bins = np.arange(0, all_data['Fare'].max() + 20, 20)
         if(key == 'Age'):
-            bins = np.arange(0, all_data['Age'].max() + 10, 10)
+            bins = np.arange(0, all_data['Age'].max() + 5, 5)
         
         # Overlay each bin's survival rates
         nonsurv_vals = all_data[all_data['Survived'] == 0][key].reset_index(drop = True)
@@ -102,7 +102,6 @@ def survival_stats(data, outcomes, key, filters = []):
     
     # 'Categorical' features
     else:
-       
         # Set the various categories
         if(key == 'Pclass'):
             values = np.arange(1,4)
@@ -112,8 +111,11 @@ def survival_stats(data, outcomes, key, filters = []):
             values = ['C', 'Q', 'S']
         if(key == 'Sex'):
             values = ['male', 'female']
+        if(key == 'Title'):
+            values = ['Mr.', 'Miss.', 'Rev.', 'Don.', 'Dr.', 'Mrs.', 'Master.']
+        if(key == 'CabinPrefix'):
+            values = ['A', 'B', 'C', 'D', 'E', 'F']
 
-        # Create DataFrame containing categories and count of each
         frame = pd.DataFrame(index = np.arange(len(values)), columns=(key,'Survived','NSurvived'))
         for i, value in enumerate(values):
             frame.loc[i] = [value, \
